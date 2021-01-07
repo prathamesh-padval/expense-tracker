@@ -1,0 +1,9 @@
+{
+  "amount": Integer,
+  "purpose": "string",
+  "txnDate": "string",
+  "txnMode": "string", // DebitCard/CreditCard/Cash -- Capital
+  "txnType": "string", // DEBIT/CREDIT -- Capital
+  "userName": "string",
+  "userId" : Integer
+}

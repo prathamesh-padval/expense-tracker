@@ -1,0 +1,7 @@
+{
+  "fromDate": "string",
+  "month": "string",
+  "toDate": "string",
+  "userName": "string",
+  "year": "string"
+}
