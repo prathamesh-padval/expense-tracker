@@ -72,7 +72,17 @@ public class ExpenseDaoImpl implements ExpenseDao {
 	public List<Transaction> findTxnsByMode(ExpenseUser user, String txnMode) {
 		return txnRepo.findByUserAndTxnMode(user, txnMode);
 	}
+	
+	@Override
+	public List<Transaction> findTxnsByModeAndMonthYear(ExpenseUser user, String txnMode, String month, String year) {
+		return txnRepo.findByUserAndTxnModeAndMonthAndYear(user, txnMode, month, year);
+	}
 
+	@Override
+	public List<Transaction> findTxnsByModeAndCustomDate(ExpenseUser user, String txnMode, Date fromDate, Date toDate) {
+		return txnRepo.findByModeAndDate(user, txnMode, fromDate, toDate);
+	}
+	
 	@Override
 	public Savings addSavingsTxn(Savings saving) {
 		return savingsRepo.save(saving);
@@ -83,6 +93,11 @@ public class ExpenseDaoImpl implements ExpenseDao {
 		return savingsRepo.findByUserAndYear(user, year);
 	}
 
+	@Override
+	public List<Savings> fetchSavingsByDate(ExpenseUser user, Date fromDate, Date toDate) {
+		return savingsRepo.findByDates(user, fromDate, toDate);
+	}
+	
 	@Override
 	public List<Savings> fetchSavings(ExpenseUser user) {
 		return savingsRepo.findByUser(user);

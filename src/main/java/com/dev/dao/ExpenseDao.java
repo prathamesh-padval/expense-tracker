@@ -27,10 +27,16 @@ public interface ExpenseDao {
 	Savings addSavingsTxn(Savings saving);
 
 	List<Savings> fetchSavingsByYear(ExpenseUser user, String year);
+	
+	List<Savings> fetchSavingsByDate(ExpenseUser user, Date fromDate, Date toDate);
 
 	List<Savings> fetchSavings(ExpenseUser user);
 
 	List<Transaction> findTxnsByMode(ExpenseUser user, String txnMode);
+	
+	List<Transaction> findTxnsByModeAndMonthYear(ExpenseUser user, String txnMode,String month,String year);
+	
+	List<Transaction> findTxnsByModeAndCustomDate(ExpenseUser user, String txnMode,Date fromDate,Date toDate);
 
 	Investment addInvestmentTxn(Investment investment);
 
