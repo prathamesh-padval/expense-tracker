@@ -10,6 +10,6 @@ public interface SavingsService {
 	
 	public Savings logSavingsTxn(InputModel input) throws ParseException;
 
-	public List<Savings> fetchSavings(InputModel input);
+	public List<Savings> fetchSavings(InputModel input) throws ParseException;
 
 }

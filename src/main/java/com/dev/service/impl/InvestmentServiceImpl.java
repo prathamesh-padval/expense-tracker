@@ -58,7 +58,7 @@ public class InvestmentServiceImpl implements InvestmentService {
 			invest.setTxnDate(txnDate);
 			invest.setMonth(ExpenseUtils.fetchMonth(txnDate));
 			invest.setYear(ExpenseUtils.fetchYear(txnDate));
-
+			invest.setCategory(input.getInvCategory());
 			invest.setAmount(input.getAmount());
 			invest.setTxnType(input.getTxnType());
 
@@ -82,7 +82,7 @@ public class InvestmentServiceImpl implements InvestmentService {
 			} else {
 				return dao.fetchInvestmentsByUser(user);
 			}
-		}	
+		}
 		return null;
 	}
 }

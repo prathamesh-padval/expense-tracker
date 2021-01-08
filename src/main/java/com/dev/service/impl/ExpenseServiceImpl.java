@@ -52,6 +52,12 @@ public class ExpenseServiceImpl implements ExpenseService {
 		}
 	}
 
+	/**
+	 * Finds transactions based on several conditions 1) username/userid, month,
+	 * year 2) username/userid, fromDate,toDate 3) username/userid, txnMode 4)
+	 * username/userid, txnMode, month, year 5) username/userid, txnMode, fromDate,
+	 * toDate 6) username/userid
+	 */
 	@Override
 	public List<Transaction> findTransactions(InputModel input) throws ParseException {
 		LoggingParams logParams = new LoggingParams(input.getUserName(), "Fetching Txns", "");
@@ -60,14 +66,17 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 		if (null != user) {
 
+			// username/userid, month, year
 			if ((null != input.getMonth() && null != input.getYear())
 					&& (null == input.getFromDate() && null == input.getToDate())) {
 				logParams.setMsg("Finding Transactions of User :" + input.getUserName() + " for the Month : "
-						+ input.getMonth());
+						+ input.getMonth() + " " + input.getYear());
 				logger.info(LoggerMsgSequence.getMsg(logParams));
 
 				return dao.findTxnsByUserAndMonth(user, input.getMonth(), input.getYear());
-			} else if ((input.getMonth() == null && null == input.getYear())
+			}
+			// username/userid, fromDate,toDate
+			else if ((null == input.getMonth() && null == input.getYear())
 					&& (null != input.getFromDate() && null != input.getToDate())) {
 				logParams.setMsg("Finding Transactions of User :" + input.getUserName() + " from : "
 						+ input.getFromDate() + " to : " + input.getToDate());
@@ -78,14 +87,41 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 				return dao.findTxnsByDate(user, fromDate, toDate);
 
-			} else if (null != input.getTxnMode() && (input.getMonth() == null && null == input.getYear()
+			}
+			// username/userid, txnMode
+			else if (null != input.getTxnMode() && (null == input.getMonth() && null == input.getYear()
 					&& null == input.getFromDate() && null == input.getToDate())) {
-				logParams.setMsg("Finding Transactions of User :" + input.getUserName()+" for "+input.getTxnMode()+" mode.");
+				logParams.setMsg("Finding Transactions of User :" + input.getUserName() + " for " + input.getTxnMode()
+						+ " mode.");
 				logger.info(LoggerMsgSequence.getMsg(logParams));
-				
-				return dao.findTxnsByMode(user,input.getTxnMode());
-				
-			} else {
+
+				return dao.findTxnsByMode(user, input.getTxnMode());
+
+			}
+			// username/userid, txnMode, month, year
+			else if (null != input.getTxnMode() && (null != input.getMonth() && null != input.getYear())
+					&& (null == input.getFromDate() && null == input.getToDate())) {
+				logParams.setMsg("Finding Transactions of User :" + input.getUserName() + " for " + input.getTxnMode()
+						+ " mode, for the month " + input.getMonth() + " " + input.getYear());
+				logger.info(LoggerMsgSequence.getMsg(logParams));
+				return dao.findTxnsByModeAndMonthYear(user, input.getTxnMode(), input.getMonth(), input.getYear());
+
+			}
+			// username/userid, txnMode, fromDate, toDate
+			else if (null != input.getTxnMode() && (null == input.getMonth() && null == input.getYear())
+					&& (null != input.getFromDate() && null != input.getToDate())) {
+				logParams.setMsg("Finding Transactions of User :" + input.getUserName() + " for " + input.getTxnMode()
+						+ " mode, from :" + input.getFromDate() + " to : " + input.getToDate());
+				logger.info(LoggerMsgSequence.getMsg(logParams));
+
+				Date fromDate = ExpenseUtils.convertDate(input.getFromDate());
+				Date toDate = ExpenseUtils.convertDate(input.getToDate());
+
+				return dao.findTxnsByModeAndCustomDate(user, input.getTxnMode(), fromDate, toDate);
+
+			}
+			// username/userid
+			else {
 				logParams.setMsg("Finding Transactions of User :" + input.getUserName());
 				logger.info(LoggerMsgSequence.getMsg(logParams));
 

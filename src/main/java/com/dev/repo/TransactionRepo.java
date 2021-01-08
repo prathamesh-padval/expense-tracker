@@ -23,5 +23,12 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
 			@Param("toDate") Date toDate);
 
 	public List<Transaction> findByUserAndTxnMode(ExpenseUser user, String txnMode);
+	
+	public List<Transaction> findByUserAndTxnModeAndMonthAndYear(ExpenseUser user, String txnMode,String month,String year);
 
+	@Query("SELECT a FROM Transaction a WHERE a.user=:user AND a.txnMode=:txnMode AND a.txnDate BETWEEN :fromDate AND :toDate")
+	public List<Transaction> findByModeAndDate(@Param("user") ExpenseUser user, @Param("txnMode")String txnMode,@Param("fromDate") Date fromDate,
+			@Param("toDate") Date toDate);
+	
+	
 }

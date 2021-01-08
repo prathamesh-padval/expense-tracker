@@ -88,7 +88,7 @@ public class SavingsServiceImpl implements SavingsService {
 	}
 
 	@Override
-	public List<Savings> fetchSavings(InputModel input) {
+	public List<Savings> fetchSavings(InputModel input) throws ParseException {
 		LoggingParams logParams = new LoggingParams(input.getUserName(), ExpenseConstants.SAVINGS, "");
 
 		logParams.setMsg("Finding User");
@@ -99,7 +99,14 @@ public class SavingsServiceImpl implements SavingsService {
 
 			return dao.fetchSavingsByYear(user, input.getYear());
 
-		} else {
+		} 
+		else if(null==input.getYear() && (null!=input.getFromDate() && null!=input.getToDate())) {
+			Date fromDate = ExpenseUtils.convertDate(input.getFromDate());
+			Date toDate = ExpenseUtils.convertDate(input.getToDate());
+			
+			return dao.fetchSavingsByDate(user, fromDate, toDate);
+		}
+		else {
 			return dao.fetchSavings(user);
 		}
 	}
