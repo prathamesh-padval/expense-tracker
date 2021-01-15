@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.dev.dao.ExpenseDao;
 import com.dev.entity.ExpenseUser;
@@ -16,6 +17,7 @@ import com.dev.service.InvestmentService;
 import com.dev.util.ExpenseConstants;
 import com.dev.util.ExpenseUtils;
 
+@Service
 public class InvestmentServiceImpl implements InvestmentService {
 
 	@Autowired
